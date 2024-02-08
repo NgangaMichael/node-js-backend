@@ -1,11 +1,11 @@
-const express = require('express')
-const app = express()
-const dotenv = require('dotenv')
-const dbSetup = require('./database/dbSetup')
-const userRoute = require('./routes/userRoutes')
+import express from 'express';
+const app = express();
+import dotenv from 'dotenv';
+import connectToDatabase from './database/dbSetup.js'
+import {userRoute} from './routes/userRoutes.js';
 
 dotenv.config();
-dbSetup()
+connectToDatabase()
 app.use(express.json())
 app.use(userRoute)
 

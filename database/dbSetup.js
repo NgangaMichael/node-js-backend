@@ -1,10 +1,14 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
-module.exports = () => {
-    mongoose.connect(process.env.DB_CONNECTION, {
-        useUnifiedTopology: true
+const connectToDatabase = async () => {
+    try {
+        await mongoose.connect(process.env.DB_CONNECTION, {
+            useUnifiedTopology: true
+        });
+        console.log('Connected to DB');
+    } catch (err) {
+        console.error('Error connecting to DB', err);
+    }
+};
 
-    })
-    .then(res => console.log('Connected to DB'))
-    .catch(err => console.log('Error connecting to DB', err))
-}
+export default connectToDatabase;
