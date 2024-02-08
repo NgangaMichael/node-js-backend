@@ -1,14 +1,24 @@
-// userModel.js
 import mongoose from 'mongoose';
+class User {
+    constructor({ username, age, gender, country, email }) {
+        this.username = username;
+        this.age = age;
+        this.gender = gender;
+        this.country = country;
+        this.email = email;
+    }
 
-const userSchema = new mongoose.Schema({
-    username: String,
-    age: Number,
-    gender: String,
-    country: String,
-    email: String,
-}, { timestamps: true });
+    static createModel() {
+        const userSchema = new mongoose.Schema({
+            username: String,
+            age: Number,
+            gender: String,
+            country: String,
+            email: String,
+        }, { timestamps: true });
 
-const User = mongoose.model('User', userSchema);
+        return mongoose.model('User', userSchema);
+    }
+}
 
-export default User;
+export default User.createModel();

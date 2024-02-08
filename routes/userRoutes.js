@@ -1,11 +1,25 @@
 import express from 'express';
 const router = express.Router();
-import * as userCTRL from '../controller/userController.js'
+import UserController from '../controller/userController.js';
 
-router.get('/fetchingAllUsers', userCTRL.fetchingAllUsers);
-router.get('/fetchingOneUser/:id', userCTRL.fetchingOneUser);
-router.post('/createUser', userCTRL.createUser);
-router.patch('/updateUser/:id', userCTRL.updateUser);
-router.delete('/deleteUser/:id', userCTRL.deleteUser);
+router.get('/fetchingAllUsers', async (req, res) => {
+    await UserController.fetchingAllUsers(req, res);
+});
+
+router.get('/fetchingOneUser/:id', async (req, res) => {
+    await UserController.fetchingOneUser(req, res);
+});
+
+router.post('/createUser', async (req, res) => {
+    await UserController.createUser(req, res);
+});
+
+router.patch('/updateUser/:id', async (req, res) => {
+    await UserController.updateUser(req, res);
+});
+
+router.delete('/deleteUser/:id', async (req, res) => {
+    await UserController.deleteUser(req, res);
+});
 
 export { router as userRoute };

@@ -1,14 +1,19 @@
 import mongoose from 'mongoose';
-
-const connectToDatabase = async () => {
-    try {
-        await mongoose.connect(process.env.DB_CONNECTION, {
-            useUnifiedTopology: true
-        });
-        console.log('Connected to DB');
-    } catch (err) {
-        console.error('Error connecting to DB', err);
+class DatabaseConnection {
+    constructor(dbConnection) {
+        this.dbConnection = dbConnection;
     }
-};
 
-export default connectToDatabase;
+    async connect() {
+        try {
+            await mongoose.connect(this.dbConnection, {
+                useUnifiedTopology: true
+            });
+            console.log('Connected to DB');
+        } catch (err) {
+            console.error('Error connecting to DB', err);
+        }
+    }
+}
+
+export default DatabaseConnection;
