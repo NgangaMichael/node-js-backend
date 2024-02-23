@@ -1,24 +1,26 @@
-import mongoose from 'mongoose';
-class User {
-    constructor({ username, age, gender, country, email }) {
-        this.username = username;
-        this.age = age;
-        this.gender = gender;
-        this.country = country;
-        this.email = email;
-    }
+import { DataTypes, Model } from 'sequelize';
+import DatabaseConnection from '../database/dbSetup.js';
 
-    static createModel() {
-        const userSchema = new mongoose.Schema({
-            username: String,
-            age: Number,
-            gender: String,
-            country: String,
-            email: String,
-        }, { timestamps: true });
+const db = new DatabaseConnection();
 
-        return mongoose.model('User', userSchema);
-    }
-}
+class User extends Model {}
 
-export default User.createModel();
+User.init(
+  {
+    username: DataTypes.STRING,
+    age: DataTypes.INTEGER,
+    gender: DataTypes.STRING,
+    country: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false, // Ensure that email cannot be null
+      unique: true, // Ensure that email is unique
+    },
+  },
+  {
+    sequelize: db.sequelize,
+    modelName: 'User', // Specify the model name explicitly
+  }
+);
+
+export default User;

@@ -1,19 +1,30 @@
-import mongoose from 'mongoose';
-class DatabaseConnection {
-    constructor(dbConnection) {
-        this.dbConnection = dbConnection;
-    }
+import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
 
-    async connect() {
-        try {
-            await mongoose.connect(this.dbConnection, {
-                useUnifiedTopology: true
-            });
-            console.log('Connected to DB');
-        } catch (err) {
-            console.error('Error connecting to DB', err);
-        }
+dotenv.config();
+
+const databaseConfig = {
+  database: process.env.DB_NAME,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  dialect: 'postgres',
+};
+
+class DatabaseConnection {
+  constructor() {
+    this.sequelize = new Sequelize(databaseConfig);
+  }
+
+  async connect() {
+    try {
+      await this.sequelize.authenticate();
+      console.log('Connected to PostgreSQL');
+    } catch (err) {
+      console.error('Error connecting to PostgreSQL', err);
     }
+  }
 }
 
 export default DatabaseConnection;
